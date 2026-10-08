@@ -1,6 +1,7 @@
 package main
 
-func main(){
+import "lem-in/validation"
 
-	
+func main() {
+	validation.IsValid()
 }
