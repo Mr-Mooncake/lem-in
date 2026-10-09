@@ -1,12 +1,14 @@
 package validation
 
-import "fmt"
-
-const usage = "Usage: go run . <filename.txt>"
+import (
+	"fmt"
+	"lem-in/handlers"
+	"lem-in/readers"
+)
 
 func IsValid() {
 	// We read the file
-	input := parseFile()
+	input := readers.ParseFile()
 	if input == nil {
 		return
 	}
@@ -17,21 +19,21 @@ func IsValid() {
 	}
 
 	// We remove the comments #
-	input = commentRemover(input)
+	input = readers.CommentRemover(input)
 
 	// We check for the commands start and end
-	if !commands(input) {
+	if !readers.Commands(input) {
 		return
 	}
 
 	// We read and store the rooms and links
-	rooms, roomNames, ok := colonyReader(input)
+	rooms, roomNames, ok := readers.ColonyReader(input)
 	if !ok {
 		return
 	}
 
 	// We check if all links connect to existing rooms
-	if !links(&rooms, roomNames) {
+	if !readers.Links(&rooms, roomNames) {
 		return
 	}
 
@@ -39,7 +41,16 @@ func IsValid() {
 	if !duplicates(&rooms) {
 		return
 	}
+	graph := handlers.CreateGraph(&rooms)
 
-	// We print the rooms and links
-	fmt.Println(rooms)
+	// Find a shortest path from start to end
+	path := handlers.Bfs(graph, rooms.Start.Name, rooms.End.Name)
+
+	if path == nil {
+		fmt.Println("ERROR: invalid data format, no path found")
+		return
+	}
+
+	// Print the path for testing
+	fmt.Println("Shortest path:", path)
 }

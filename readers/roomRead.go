@@ -1,12 +1,13 @@
-package validation
+package readers
 
 import (
 	"fmt"
+	"lem-in/structs"
 	"strconv"
 	"strings"
 )
 
-func roomReader(line string, rooms *Rooms, roomNames map[string]bool, nextRoom string) bool {
+func RoomReader(line string, rooms *structs.Rooms, roomNames map[string]bool, nextRoom string) bool {
 	fields := strings.Fields(line)
 
 	if len(fields) != 3 {
@@ -31,7 +32,7 @@ func roomReader(line string, rooms *Rooms, roomNames map[string]bool, nextRoom s
 		return false
 	}
 
-	room := Room{Name: fields[0], X: x, Y: y}
+	room := structs.Room{Name: fields[0], X: x, Y: y}
 
 	if roomNames[room.Name] {
 		fmt.Println("ERROR: invalid data format, duplicate room")

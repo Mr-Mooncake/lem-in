@@ -1,12 +1,13 @@
-package validation
+package readers
 
 import (
 	"fmt"
+	"lem-in/structs"
 	"strings"
 )
 
-func colonyReader(input []string) (Rooms, map[string]bool, bool) {
-	var rooms Rooms
+func ColonyReader(input []string) (structs.Rooms, map[string]bool, bool) {
+	var rooms structs.Rooms
 	roomNames := make(map[string]bool)
 
 	noMoreRooms := false
@@ -35,7 +36,7 @@ func colonyReader(input []string) (Rooms, map[string]bool, bool) {
 
 		// The room after ##start or ##end
 		if nextRoom != "" {
-			if !roomReader(v, &rooms, roomNames, nextRoom) {
+			if !RoomReader(v, &rooms, roomNames, nextRoom) {
 				return rooms, roomNames, false
 			}
 
@@ -50,7 +51,7 @@ func colonyReader(input []string) (Rooms, map[string]bool, bool) {
 				return rooms, roomNames, false
 			}
 
-			if !roomReader(v, &rooms, roomNames, "") {
+			if !RoomReader(v, &rooms, roomNames, "") {
 				return rooms, roomNames, false
 			}
 
@@ -59,7 +60,7 @@ func colonyReader(input []string) (Rooms, map[string]bool, bool) {
 
 		// Links
 		if len(fields) == 1 {
-			if !linkReader(v, &rooms) {
+			if !LinkReader(v, &rooms) {
 				return rooms, roomNames, false
 			}
 

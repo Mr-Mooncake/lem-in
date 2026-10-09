@@ -1,4 +1,4 @@
-package validation
+package structs
 
 type Room struct {
 	Name string

@@ -1,11 +1,11 @@
-package validation
+package readers
 
 import (
 	"fmt"
 	"strings"
 )
 
-func commentRemover(input []string) []string {
+func CommentRemover(input []string) []string {
 	var cleaned []string
 
 	for _, line := range input {
@@ -21,7 +21,7 @@ func commentRemover(input []string) []string {
 	return cleaned
 }
 
-func commands(input []string) bool {
+func Commands(input []string) bool {
 	foundStart := false
 	foundEnd := false
 

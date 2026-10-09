@@ -1,4 +1,4 @@
-package validation
+package readers
 
 import (
 	"fmt"
@@ -6,7 +6,9 @@ import (
 	"strings"
 )
 
-func parseFile() []string {
+const usage = "Usage: go run . <filename.txt>"
+
+func ParseFile() []string {
 	args := os.Args
 	if len(args) != 2 {
 		fmt.Println(usage)
