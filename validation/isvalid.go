@@ -15,7 +15,7 @@ func IsValid() {
 		fmt.Println(usage)
 		return
 	}
-
+	// noMoreRooms := false
 	filename := args[1]
 
 	if !strings.HasSuffix(filename, ".txt") {
@@ -47,10 +47,9 @@ func IsValid() {
 	var cleaned []string
 
 	for _, line := range input {
-		if strings.HasPrefix(line, "#") {
-			if line != "##start" && line != "##end" {
-				continue
-			}
+		if strings.HasPrefix(line, "#") &&
+			line != "##start" && line != "##end" {
+			continue
 		}
 
 		cleaned = append(cleaned, line)
@@ -78,13 +77,17 @@ func IsValid() {
 			foundEnd = true
 		}
 	}
-
 	if !foundStart || !foundEnd {
-		fmt.Println("ERROR: invalid data format")
+		fmt.Println("ERROR: invalid data format, there should a start and end command in the file")
 		return
 	}
-
+	var rooms Rooms
+	roomNames := make(map[string]bool)
 	for i, v := range input {
+
+		if i == 0 || strings.TrimSpace(v) == "" {
+			continue
+		}
 		if v == "##start" || v == "##end" {
 			if i+1 >= len(input) {
 				fmt.Println("ERROR: invalid data format, missing room")
@@ -92,13 +95,107 @@ func IsValid() {
 			}
 
 			fields := strings.Fields(input[i+1])
-
 			if len(fields) != 3 {
 				fmt.Println("ERROR: invalid data format, invalid room")
 				return
 			}
+			if strings.Contains(fields[0], "L") || strings.Contains(fields[0], "#") {
+				fmt.Println("ERROR: invalid data format, invalid room name")
+				return
+			}
+
+			x, err := strconv.Atoi(fields[1])
+			if err != nil {
+				fmt.Println("ERROR: invalid data format, room coordinates must be integers")
+				return
+			}
+
+			y, err := strconv.Atoi(fields[2])
+			if err != nil {
+				fmt.Println("ERROR: invalid data format, room coordinates must be integers")
+				return
+			}
+
+			room := Room{Name: fields[0], X: x, Y: y}
+			if input[i] == "##start" {
+				rooms.Start = room
+			} else {
+				rooms.End = room
+			}
+			continue
 		}
+
+		fields := strings.Fields(v)
+
+		if len(fields) == 1 {
+			link := strings.Split(fields[0], "-")
+			if len(link) != 2 || link[0] == "" || link[1] == "" || link[0] == link[1] {
+				fmt.Println("ERROR: invalid data format, invalid link")
+				return
+			}
+
+			rooms.Links = append(rooms.Links, Link{From: link[0], To: link[1]})
+			// noMoreRooms = true
+			continue
+		}
+
+		if len(fields) != 3 {
+			fmt.Println("ERROR: invalid data format, invalid room")
+			return
+		}
+		if strings.HasPrefix(fields[0], "L") || strings.HasPrefix(fields[0], "#") {
+			fmt.Println("ERROR: invalid data format, invalid room name")
+			return
+		}
+
+		x, err := strconv.Atoi(fields[1])
+		if err != nil {
+			fmt.Println("ERROR: invalid data format, room coordinates must be integers")
+			return
+		}
+
+		y, err := strconv.Atoi(fields[2])
+		if err != nil {
+			fmt.Println("ERROR: invalid data format, room coordinates must be integers")
+			return
+		}
+
+		room := Room{Name: fields[0], X: x, Y: y}
+		if roomNames[room.Name] {
+			fmt.Println("ERROR: invalid data format, duplicate room")
+			return
+		}
+
+		roomNames[room.Name] = true
+		rooms.All = append(rooms.All, room)
 	}
 
-	fmt.Println(input)
+	for _, link := range rooms.Links {
+		if !roomNames[link.From] || !roomNames[link.To] {
+			fmt.Println("ERROR: invalid data format, unknown room in link")
+			return
+		}
+	}
+	if len(rooms.Links) == 0 {
+		fmt.Println("ERROR: invalid data format, no links found")
+		return
+	}
+	linkNames := make(map[[2]string]bool)
+
+	for _, link := range rooms.Links {
+		key := [2]string{link.From, link.To}
+
+		if key[0] > key[1] {
+			key[0], key[1] = key[1], key[0]
+		}
+
+		if linkNames[key] {
+			fmt.Println("ERROR: invalid data format, duplicate link")
+			return
+		}
+
+		linkNames[key] = true
+	}
+
+	// fmt.Println(rooms)
 }
