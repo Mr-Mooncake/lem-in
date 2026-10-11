@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"lem-in/structs"
 )
 
@@ -18,6 +17,5 @@ func CreateGraph(rooms *structs.Rooms) map[string][]string {
 		graph[link.From] = append(graph[link.From], link.To)
 		graph[link.To] = append(graph[link.To], link.From)
 	}
-	fmt.Println(graph)
 	return graph
 }
