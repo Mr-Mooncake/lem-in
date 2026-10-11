@@ -1,15 +1,15 @@
 package structs
 
-type Room struct {
+type RoomDetails struct {
 	Name string
 	X    int
 	Y    int
 }
 
 type Rooms struct {
-	Start Room
-	End   Room
-	All   []Room
+	Start RoomDetails
+	End   RoomDetails
+	All   []RoomDetails
 	Links []Link
 }
 

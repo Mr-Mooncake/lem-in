@@ -32,7 +32,7 @@ func RoomReader(line string, rooms *structs.Rooms, roomNames map[string]bool, ne
 		return false
 	}
 
-	room := structs.Room{Name: fields[0], X: x, Y: y}
+	room := structs.RoomDetails{Name: fields[0], X: x, Y: y}
 
 	if roomNames[room.Name] {
 		fmt.Println("ERROR: invalid data format, duplicate room")
