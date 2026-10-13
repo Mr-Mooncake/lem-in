@@ -1,4 +1,4 @@
-package structs
+package handlers
 
 type RoomDetails struct {
 	Name string
@@ -16,4 +16,10 @@ type Rooms struct {
 type Link struct {
 	From string
 	To   string
+}
+type Edge struct{ To, Cap, Cost int }
+
+type FlowNet struct {
+	Edges []Edge
+	Adj   [][]int
 }

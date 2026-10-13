@@ -2,12 +2,12 @@ package readers
 
 import (
 	"fmt"
-	"lem-in/structs"
+	"lem-in/handlers"
 	"strconv"
 	"strings"
 )
 
-func RoomReader(line string, rooms *structs.Rooms, roomNames map[string]bool, nextRoom string) bool {
+func RoomReader(line string, rooms *handlers.Rooms, roomNames map[string]bool, nextRoom string) bool {
 	fields := strings.Fields(line)
 
 	if len(fields) != 3 {
@@ -32,7 +32,7 @@ func RoomReader(line string, rooms *structs.Rooms, roomNames map[string]bool, ne
 		return false
 	}
 
-	room := structs.RoomDetails{Name: fields[0], X: x, Y: y}
+	room := handlers.RoomDetails{Name: fields[0], X: x, Y: y}
 
 	if roomNames[room.Name] {
 		fmt.Println("ERROR: invalid data format, duplicate room")

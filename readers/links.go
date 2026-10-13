@@ -2,11 +2,11 @@ package readers
 
 import (
 	"fmt"
-	"lem-in/structs"
+	"lem-in/handlers"
 	"strings"
 )
 
-func Links(rooms *structs.Rooms, roomNames map[string]bool) bool {
+func Links(rooms *handlers.Rooms, roomNames map[string]bool) bool {
 	if len(rooms.Links) == 0 {
 		fmt.Println("ERROR: invalid data format, no links found")
 		return false
@@ -23,7 +23,7 @@ func Links(rooms *structs.Rooms, roomNames map[string]bool) bool {
 	return true
 }
 
-func LinkReader(line string, rooms *structs.Rooms) bool {
+func LinkReader(line string, rooms *handlers.Rooms) bool {
 	link := strings.Split(line, "-")
 
 	if len(link) != 2 || link[0] == "" || link[1] == "" {
@@ -36,6 +36,6 @@ func LinkReader(line string, rooms *structs.Rooms) bool {
 		return false
 	}
 
-	rooms.Links = append(rooms.Links, structs.Link{From: link[0], To: link[1]})
+	rooms.Links = append(rooms.Links, handlers.Link{From: link[0], To: link[1]})
 	return true
 }

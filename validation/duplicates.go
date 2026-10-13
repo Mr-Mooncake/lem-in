@@ -2,10 +2,10 @@ package validation
 
 import (
 	"fmt"
-	"lem-in/structs"
+	"lem-in/handlers"
 )
 
-func duplicates(rooms *structs.Rooms) bool {
+func duplicates(rooms *handlers.Rooms) bool {
 	linkNames := make(map[[2]string]bool)
 
 	for _, link := range rooms.Links {

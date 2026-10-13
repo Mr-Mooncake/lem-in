@@ -1,4 +1,4 @@
-package ouput
+package handlers
 
 import (
 	"fmt"

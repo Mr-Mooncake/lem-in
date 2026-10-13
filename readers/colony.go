@@ -2,12 +2,12 @@ package readers
 
 import (
 	"fmt"
-	"lem-in/structs"
 	"strings"
+	"lem-in/handlers"
 )
 
-func ColonyReader(input []string) (structs.Rooms, map[string]bool, bool) {
-	var rooms structs.Rooms
+func ColonyReader(input []string) (handlers.Rooms, map[string]bool, bool) {
+	var rooms handlers.Rooms
 	roomNames := make(map[string]bool)
 
 	noMoreRooms := false

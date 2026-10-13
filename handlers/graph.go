@@ -1,10 +1,6 @@
 package handlers
 
-import (
-	"lem-in/structs"
-)
-
-func CreateGraph(rooms *structs.Rooms) map[string][]string {
+func CreateGraph(rooms *Rooms) map[string][]string {
 	graph := make(map[string][]string)
 
 	// Add all rooms to the graph
