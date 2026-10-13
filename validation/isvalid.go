@@ -2,8 +2,10 @@ package validation
 
 import (
 	"fmt"
+	output "lem-in/Ouput"
 	"lem-in/handlers"
 	"lem-in/readers"
+	"strconv"
 )
 
 func IsValid() {
@@ -51,6 +53,8 @@ func IsValid() {
 		return
 	}
 
-	// Print the path for testing
-	fmt.Println("Shortest path:", path)
+	// Mooncake: pick the best paths for all ants and print the result
+	numAnts, _ := strconv.Atoi(input[0])
+	paths := handlers.FindPaths(graph, rooms.Start.Name, rooms.End.Name, numAnts)
+	output.PrintOut(input, paths, handlers.Distribute(paths, numAnts))
 }
