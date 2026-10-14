@@ -7,16 +7,16 @@ import (
 	"strconv"
 )
 
-func IsValid() {
+func IsValid() ([]string, handlers.Rooms, bool) {
 	// We read the file
 	input := readers.ParseFile()
 	if input == nil {
-		return
+		return nil, handlers.Rooms{}, false
 	}
 
 	// We check the ants
 	if !ants(input) {
-		return
+		return nil, handlers.Rooms{}, false
 	}
 
 	// We remove the comments #
@@ -24,38 +24,25 @@ func IsValid() {
 
 	// We check for the commands start and end
 	if !readers.Commands(input) {
-		return
+		return nil, handlers.Rooms{}, false
 	}
 
 	// We read and store the rooms and links
 	rooms, roomNames, ok := readers.ColonyReader(input)
 	if !ok {
-		return
+		return nil, handlers.Rooms{}, false
 	}
 
 	// We check if all links connect to existing rooms
 	if !readers.Links(&rooms, roomNames) {
-		return
+		return nil, handlers.Rooms{}, false
 	}
 
 	// We check for duplicate links
 	if !duplicates(&rooms) {
-		return
+		return nil, handlers.Rooms{}, false
 	}
-	graph := handlers.CreateGraph(&rooms)
-
-	// Find a shortest path from start to end
-	path := handlers.Bfs(graph, rooms.Start.Name, rooms.End.Name)
-
-	if path == nil {
-		fmt.Println("ERROR: invalid data format, no path found")
-		return
-	}
-
-	// Mooncake: pick the best paths for all ants and print the result
-	numAnts, _ := strconv.Atoi(input[0])
-	paths := handlers.FindPaths(graph, rooms.Start.Name, rooms.End.Name, numAnts)
-	handlers.PrintOut(input, paths, handlers.Distribute(paths, numAnts))
+	return input, rooms, true
 }
 
 func duplicates(rooms *handlers.Rooms) bool {
