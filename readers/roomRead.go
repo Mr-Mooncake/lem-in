@@ -38,6 +38,12 @@ func RoomReader(line string, rooms *handlers.Rooms, roomNames map[string]bool, n
 		fmt.Println("ERROR: invalid data format, duplicate room")
 		return false
 	}
+	for _, existingRoom := range rooms.All {
+		if existingRoom.X == room.X && existingRoom.Y == room.Y {
+			fmt.Println("ERROR: invalid data format, duplicate room coordinates")
+			return false
+		}
+	}
 
 	roomNames[room.Name] = true
 	rooms.All = append(rooms.All, room)
