@@ -34,7 +34,7 @@ func IsValid() {
 	}
 
 	// We check if all links connect to existing rooms
-	if !readers.Links(&rooms, roomNames) {
+	if !Links(&rooms, roomNames) {
 		return
 	}
 
@@ -56,4 +56,56 @@ func IsValid() {
 	numAnts, _ := strconv.Atoi(input[0])
 	paths := handlers.FindPaths(graph, rooms.Start.Name, rooms.End.Name, numAnts)
 	handlers.PrintOut(input, paths, handlers.Distribute(paths, numAnts))
+}
+
+func ants(input []string) bool {
+	ants, err := strconv.Atoi(input[0])
+	if err != nil {
+		fmt.Println("ERROR: invalid data format, invalid number of ants")
+		return false
+	}
+
+	if ants <= 0 {
+		fmt.Println("ERROR: invalid data format, number of ants should be greater than or equal to 1")
+		return false
+	}
+	return true
+}
+
+func duplicates(rooms *handlers.Rooms) bool {
+	linkNames := make(map[[2]string]bool)
+
+	for _, link := range rooms.Links {
+		key := [2]string{link.From, link.To}
+
+		if key[0] > key[1] {
+			key[0], key[1] = key[1], key[0]
+		}
+
+		if linkNames[key] {
+			fmt.Println("ERROR: invalid data format, duplicate link")
+			return false
+		}
+
+		linkNames[key] = true
+	}
+
+	return true
+}
+
+func Links(rooms *handlers.Rooms, roomNames map[string]bool) bool {
+	if len(rooms.Links) == 0 {
+		fmt.Println("ERROR: invalid data format, no links found")
+		return false
+	}
+
+	// Check that every linked room exists
+	for _, link := range rooms.Links {
+		if !roomNames[link.From] || !roomNames[link.To] {
+			fmt.Println("ERROR: invalid data format, unknown room in link")
+			return false
+		}
+	}
+
+	return true
 }
