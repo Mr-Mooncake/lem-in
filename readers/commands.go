@@ -9,8 +9,11 @@ func CommentRemover(input []string) []string {
 	var cleaned []string
 
 	for _, line := range input {
-		if strings.HasPrefix(line, "#") &&
-			line != "##start" && line != "##end" {
+		if strings.HasPrefix(line, "##") && line != "##start" && line != "##end" {
+			fmt.Println("ERROR: invalid data format, other attemps of commands that are not start or end are unallowed")
+			return nil
+		}
+		if strings.HasPrefix(line, "#") && line != "##start" && line != "##end" {
 			continue
 		}
 
@@ -26,6 +29,7 @@ func Commands(input []string) bool {
 	foundEnd := false
 
 	for _, v := range input {
+
 		if v == "##start" {
 			if foundStart {
 				fmt.Println("ERROR: invalid data format, only 1 start command allowed")

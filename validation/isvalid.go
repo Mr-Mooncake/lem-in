@@ -21,6 +21,9 @@ func IsValid() ([]string, handlers.Rooms, bool) {
 
 	// We remove the comments #
 	input = readers.CommentRemover(input)
+	if input == nil {
+		return nil, handlers.Rooms{}, false
+	}
 
 	// We check for the commands start and end
 	if !readers.Commands(input) {
