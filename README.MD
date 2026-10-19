@@ -16,7 +16,7 @@ The program reads a file containing rooms, tunnels, and ants, finds efficient pa
 
 
 
-1. From the root project directory, :
+From the root project directory, :
 
 ```bash
 go run . test0.txt
