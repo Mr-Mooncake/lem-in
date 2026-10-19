@@ -7,7 +7,7 @@
 --------------------------------------------------------------------------------
 [PASS] Question: Has the requirement for the allowed packages been respected? (Reminder for this project: only standard packages)
        Answer:   Yes
-       Details:  Only standard packages are used: fmt, strconv, sort, strings, os
+       Details:  Only standard packages are used: os, fmt, strconv, sort, strings
 
 [PASS] Question: Try to run go run . example00.txt. Is the program able to read the ant farm in this standard input?
        Answer:   Yes
@@ -287,11 +287,11 @@
 
 [PASS] Question: Try running the program with example06 and with 100 ants. Is the real time less than 1.5 minutes?
        Answer:   Yes
-       Details:  Executed in 72.227724ms (well below the 1.5 minutes / 90s limit)
+       Details:  Executed in 103.671195ms (well below the 1.5 minutes / 90s limit)
 
 [PASS] Question: Try running the program with example07 and with 1000 ants. Is the real time less than 2.5 minutes?
        Answer:   Yes
-       Details:  Executed in 84.343738ms (well below the 2.5 minutes / 150s limit)
+       Details:  Executed in 124.893108ms (well below the 2.5 minutes / 150s limit)
 
 [PASS] Question: Are the ants alone in each room?
        Answer:   Yes
